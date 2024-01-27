@@ -1,11 +1,25 @@
-import 'package:apexive_test/core/theme/app_colors.dart';
-import 'package:apexive_test/core/widgets/custom_button.dart';
+import 'package:apexive_test/core/router/routes.dart';
 import 'package:apexive_test/core/widgets/gradient_body.dart';
+import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
+import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
+import 'package:apexive_test/feature/timer/presentation/widget/empty_timer_widget.dart';
+import 'package:apexive_test/feature/timer/presentation/widget/timesheet_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class TimerScreen extends StatelessWidget {
+class TimerScreen extends StatefulWidget {
   const TimerScreen({super.key});
+
+  @override
+  State<TimerScreen> createState() => _TimerScreenState();
+}
+
+class _TimerScreenState extends State<TimerScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,53 +32,22 @@ class TimerScreen extends StatelessWidget {
               children: [
                 const _Header(),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(),
-                      Column(
-                        children: [
-                          Container(
-                            height: 192,
-                            width: 192,
-                            margin: const EdgeInsets.symmetric(vertical: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
-                            ),
-                            child: const Icon(
-                              Icons.schedule,
-                              color: Colors.white,
-                              size: 100,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "You don't have any local time sheets",
-                              style: Theme.of(context).textTheme.headlineMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Text(
-                            'Create a timer to be begin tracking time',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      CustomButton(
-                        margin: const EdgeInsets.symmetric(vertical: 40),
-                        onPressed: () {
-                          context.push('/create-timesheet');
-                        },
-                        label: 'Get Started',
-                      ),
-                    ],
-                  ),
+                  child: BlocConsumer<TimerCubit, List<TimeSheets>>(
+                      listener: (context, state) {},
+                      builder: (context, state) {
+                        if (state.isEmpty) {
+                          return const EmptyTimerWidget();
+                        }
+                        return ListView.builder(
+                          itemCount: state.length,
+                          itemBuilder: (context, index) {
+                            return TimeSheetTile(
+                              timeSheets: state[index],
+                              index: index,
+                            );
+                          },
+                        );
+                      }),
                 )
               ],
             ),
@@ -76,9 +59,7 @@ class TimerScreen extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({
-    super.key,
-  });
+  const _Header();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +71,9 @@ class _Header extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineLarge,
         ),
         IconButton.filled(
-          onPressed: () {},
+          onPressed: () {
+            context.push(Routes.createTimeSheetScreen);
+          },
           icon: const Icon(
             Icons.add,
             size: 30,

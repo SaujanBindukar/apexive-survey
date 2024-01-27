@@ -19,7 +19,11 @@ TextTheme _getTextTheme() {
         TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: textColor),
     headlineMedium:
         TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: textColor),
+    headlineSmall:
+        TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: textColor),
     titleLarge:
+        TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
+    titleMedium:
         TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
     bodyLarge: TextStyle(
         fontSize: 16,
@@ -37,6 +41,9 @@ ThemeData _getAppTheme() {
   return ThemeData(
       textTheme: _getTextTheme(),
       colorScheme: _colorScheme,
+      iconTheme: const IconThemeData(
+        color: Colors.white,
+      ),
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
           backgroundColor: const MaterialStatePropertyAll(
