@@ -15,6 +15,7 @@ class CreateTimeSheetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return BlocProvider(
       create: (context) => TimeSheetDataCubit(),
       child: BlocBuilder<TimeSheetDataCubit, TimeSheets>(
@@ -35,7 +36,7 @@ class CreateTimeSheetScreen extends StatelessWidget {
                               value: state.projectName,
                               hint: Text(
                                 'Project',
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: textTheme.bodyLarge,
                               ),
                               icon: const Icon(
                                 Icons.keyboard_arrow_down,
@@ -61,7 +62,7 @@ class CreateTimeSheetScreen extends StatelessWidget {
                               value: state.taskName,
                               hint: Text(
                                 'Task',
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: textTheme.bodyLarge,
                               ),
                               icon: const Icon(
                                 Icons.keyboard_arrow_down,
@@ -86,8 +87,7 @@ class CreateTimeSheetScreen extends StatelessWidget {
                             TextFormField(
                               decoration: InputDecoration(
                                 hintText: 'Description',
-                                hintStyle:
-                                    Theme.of(context).textTheme.bodyLarge,
+                                hintStyle: textTheme.bodyLarge,
                               ),
                               onChanged: (value) {
                                 context
@@ -113,7 +113,7 @@ class CreateTimeSheetScreen extends StatelessWidget {
                                 const SizedBox(width: 20),
                                 Text(
                                   'Make Favourite',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  style: textTheme.bodyLarge,
                                 )
                               ],
                             ),
@@ -173,6 +173,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -187,7 +188,7 @@ class _Header extends StatelessWidget {
         ),
         Text(
           'Create Timer',
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: textTheme.headlineSmall,
         ),
         const SizedBox(),
       ],
