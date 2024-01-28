@@ -27,6 +27,7 @@ mixin _$TimeSheets {
   DateTime get createdAt => throw _privateConstructorUsedError;
   bool get isFavourite => throw _privateConstructorUsedError;
   bool get hasStarted => throw _privateConstructorUsedError;
+  bool get isCompleted => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false)
   Timer? get timer => throw _privateConstructorUsedError;
@@ -51,6 +52,7 @@ abstract class $TimeSheetsCopyWith<$Res> {
       DateTime createdAt,
       bool isFavourite,
       bool hasStarted,
+      bool isCompleted,
       Duration duration,
       @JsonKey(includeFromJson: false) Timer? timer});
 }
@@ -75,6 +77,7 @@ class _$TimeSheetsCopyWithImpl<$Res, $Val extends TimeSheets>
     Object? createdAt = null,
     Object? isFavourite = null,
     Object? hasStarted = null,
+    Object? isCompleted = null,
     Object? duration = null,
     Object? timer = freezed,
   }) {
@@ -107,6 +110,10 @@ class _$TimeSheetsCopyWithImpl<$Res, $Val extends TimeSheets>
           ? _value.hasStarted
           : hasStarted // ignore: cast_nullable_to_non_nullable
               as bool,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -135,6 +142,7 @@ abstract class _$$TimeSheetsImplCopyWith<$Res>
       DateTime createdAt,
       bool isFavourite,
       bool hasStarted,
+      bool isCompleted,
       Duration duration,
       @JsonKey(includeFromJson: false) Timer? timer});
 }
@@ -157,6 +165,7 @@ class __$$TimeSheetsImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? isFavourite = null,
     Object? hasStarted = null,
+    Object? isCompleted = null,
     Object? duration = null,
     Object? timer = freezed,
   }) {
@@ -189,6 +198,10 @@ class __$$TimeSheetsImplCopyWithImpl<$Res>
           ? _value.hasStarted
           : hasStarted // ignore: cast_nullable_to_non_nullable
               as bool,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -212,6 +225,7 @@ class _$TimeSheetsImpl implements _TimeSheets {
       required this.createdAt,
       this.isFavourite = false,
       this.hasStarted = false,
+      this.isCompleted = false,
       this.duration = const Duration(seconds: 0),
       @JsonKey(includeFromJson: false) this.timer});
 
@@ -236,6 +250,9 @@ class _$TimeSheetsImpl implements _TimeSheets {
   final bool hasStarted;
   @override
   @JsonKey()
+  final bool isCompleted;
+  @override
+  @JsonKey()
   final Duration duration;
   @override
   @JsonKey(includeFromJson: false)
@@ -243,7 +260,7 @@ class _$TimeSheetsImpl implements _TimeSheets {
 
   @override
   String toString() {
-    return 'TimeSheets(id: $id, projectName: $projectName, taskName: $taskName, description: $description, createdAt: $createdAt, isFavourite: $isFavourite, hasStarted: $hasStarted, duration: $duration, timer: $timer)';
+    return 'TimeSheets(id: $id, projectName: $projectName, taskName: $taskName, description: $description, createdAt: $createdAt, isFavourite: $isFavourite, hasStarted: $hasStarted, isCompleted: $isCompleted, duration: $duration, timer: $timer)';
   }
 
   @override
@@ -264,6 +281,8 @@ class _$TimeSheetsImpl implements _TimeSheets {
                 other.isFavourite == isFavourite) &&
             (identical(other.hasStarted, hasStarted) ||
                 other.hasStarted == hasStarted) &&
+            (identical(other.isCompleted, isCompleted) ||
+                other.isCompleted == isCompleted) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             (identical(other.timer, timer) || other.timer == timer));
@@ -271,8 +290,18 @@ class _$TimeSheetsImpl implements _TimeSheets {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, projectName, taskName,
-      description, createdAt, isFavourite, hasStarted, duration, timer);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      projectName,
+      taskName,
+      description,
+      createdAt,
+      isFavourite,
+      hasStarted,
+      isCompleted,
+      duration,
+      timer);
 
   @JsonKey(ignore: true)
   @override
@@ -297,6 +326,7 @@ abstract class _TimeSheets implements TimeSheets {
       required final DateTime createdAt,
       final bool isFavourite,
       final bool hasStarted,
+      final bool isCompleted,
       final Duration duration,
       @JsonKey(includeFromJson: false) final Timer? timer}) = _$TimeSheetsImpl;
 
@@ -317,6 +347,8 @@ abstract class _TimeSheets implements TimeSheets {
   bool get isFavourite;
   @override
   bool get hasStarted;
+  @override
+  bool get isCompleted;
   @override
   Duration get duration;
   @override

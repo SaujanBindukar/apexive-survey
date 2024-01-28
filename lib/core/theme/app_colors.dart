@@ -9,6 +9,6 @@ class AppColors {
   static const Color surfaceColor = Color(0xff214ECC);
   static const Color onSurfaceColor = Colors.white;
 
-  static const Color secondaryBackgroundColor = Color(0xff253C7D);
+  static const Color secondaryBackgroundColor = Color(0xff263F84);
   static const Color tertiaryBackgroundColor = Color(0xff2543A6);
 }

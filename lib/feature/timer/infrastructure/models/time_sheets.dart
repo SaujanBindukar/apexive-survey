@@ -15,6 +15,7 @@ class TimeSheets with _$TimeSheets {
     required DateTime createdAt,
     @Default(false) bool isFavourite,
     @Default(false) bool hasStarted,
+    @Default(false) bool isCompleted,
     @Default(Duration(seconds: 0)) Duration duration,
     @JsonKey(includeFromJson: false) Timer? timer,
   }) = _TimeSheets;

@@ -15,25 +15,52 @@ final _colorScheme = ColorScheme.fromSeed(
 TextTheme _getTextTheme() {
   final textColor = _colorScheme.onSurface;
   return TextTheme(
-    headlineLarge:
-        TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: textColor),
-    headlineMedium:
-        TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: textColor),
-    headlineSmall:
-        TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: textColor),
-    titleLarge:
-        TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
-    titleMedium:
-        TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
+    headlineLarge: TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.w700,
+      color: textColor,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.w700,
+      color: textColor,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w700,
+      color: textColor,
+    ),
+    titleLarge: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: textColor,
+    ),
+    titleMedium: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: textColor,
+    ),
     bodyLarge: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         color: textColor,
         letterSpacing: 0.5),
-    bodyMedium:
-        TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: textColor),
-    labelLarge:
-        TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: textColor),
+    bodyMedium: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: textColor,
+    ),
+    bodySmall: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      color: textColor,
+      letterSpacing: 0.4,
+    ),
+    labelLarge: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: textColor,
+    ),
   );
 }
 
@@ -43,6 +70,13 @@ ThemeData _getAppTheme() {
     colorScheme: _colorScheme,
     iconTheme: const IconThemeData(
       color: Colors.white,
+    ),
+    tabBarTheme: TabBarTheme(
+      indicatorColor: Colors.white,
+      labelStyle: _getTextTheme().labelLarge,
+      unselectedLabelColor: Colors.white,
+      labelColor: Colors.white,
+      dividerHeight: 0.05,
     ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(

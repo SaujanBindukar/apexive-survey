@@ -15,6 +15,7 @@ _$TimeSheetsImpl _$$TimeSheetsImplFromJson(Map<String, dynamic> json) =>
       createdAt: DateTime.parse(json['createdAt'] as String),
       isFavourite: json['isFavourite'] as bool? ?? false,
       hasStarted: json['hasStarted'] as bool? ?? false,
+      isCompleted: json['isCompleted'] as bool? ?? false,
       duration: json['duration'] == null
           ? const Duration(seconds: 0)
           : Duration(microseconds: json['duration'] as int),
@@ -29,5 +30,6 @@ Map<String, dynamic> _$$TimeSheetsImplToJson(_$TimeSheetsImpl instance) =>
       'createdAt': instance.createdAt.toIso8601String(),
       'isFavourite': instance.isFavourite,
       'hasStarted': instance.hasStarted,
+      'isCompleted': instance.isCompleted,
       'duration': instance.duration.inMicroseconds,
     };

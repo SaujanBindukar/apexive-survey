@@ -22,8 +22,7 @@ class CreateTimeSheetScreen extends StatelessWidget {
             body: GradientBody(
               child: Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Column(
                     children: [
                       const _Header(),
@@ -154,9 +153,7 @@ class CreateTimeSheetScreen extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({
-    super.key,
-  });
+  const _Header();
 
   @override
   Widget build(BuildContext context) {

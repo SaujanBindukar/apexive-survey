@@ -11,6 +11,7 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
   );
+  // await HydratedBloc.storage.clear();
   runApp(
     MultiBlocProvider(
       providers: [
