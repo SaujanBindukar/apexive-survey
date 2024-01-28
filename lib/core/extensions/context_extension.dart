@@ -1,6 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:apexive_test/feature/timer/cubit/current_time_sheets_cubit.dart';
-import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/current_time_sheet_cubit/current_time_sheets_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

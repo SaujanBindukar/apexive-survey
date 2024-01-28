@@ -1,9 +1,10 @@
+import 'package:apexive_test/core/extensions/context_extension.dart';
 import 'package:apexive_test/core/theme/app_colors.dart';
 import 'package:apexive_test/core/utils/fake_data.dart';
 import 'package:apexive_test/core/widgets/custom_button.dart';
 import 'package:apexive_test/core/widgets/gradient_body.dart';
-import 'package:apexive_test/feature/timer/cubit/time_sheet_data_cubit.dart';
-import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/time_sheet_data_cubit/time_sheet_data_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -118,25 +119,10 @@ class CreateTimeSheetScreen extends StatelessWidget {
                             ),
                             const Spacer(),
                             CustomButton(
-                              label: 'Create Timer',
-                              onPressed: () {
-                                final data =
-                                    context.read<TimeSheetDataCubit>().state;
-
-                                context.read<TimerCubit>().addTimeSheets(
-                                      timeSheets: TimeSheets(
-                                        id: const Uuid().v1(),
-                                        projectName: data.projectName,
-                                        taskName: data.taskName,
-                                        description: data.description,
-                                        createdAt: DateTime.now(),
-                                        isFavourite: data.isFavourite,
-                                      ),
-                                    );
-
-                                Navigator.of(context).pop();
-                              },
-                            )
+                                label: 'Create Timer',
+                                onPressed: () {
+                                  onCreateTimer(context: context);
+                                })
                           ],
                         ),
                       )
@@ -149,6 +135,36 @@ class CreateTimeSheetScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void onCreateTimer({required BuildContext context}) {
+    final data = context.read<TimeSheetDataCubit>().state;
+    if (data.projectName == null) {
+      context.showFlushBar(context: context, message: 'Please select project');
+      return;
+    }
+    if (data.taskName == null) {
+      context.showFlushBar(context: context, message: 'Please select task');
+      return;
+    }
+    if (data.description == null || data.description!.isEmpty) {
+      context.showFlushBar(
+          context: context, message: 'Please enter description');
+      return;
+    }
+
+    context.read<TimerCubit>().addTimeSheets(
+          timeSheets: TimeSheets(
+            id: const Uuid().v1(),
+            projectName: data.projectName,
+            taskName: data.taskName,
+            description: data.description,
+            createdAt: DateTime.now(),
+            isFavourite: data.isFavourite,
+          ),
+        );
+    Navigator.of(context).pop();
+    context.showFlushBar(context: context, message: 'Timesheet added');
   }
 }
 

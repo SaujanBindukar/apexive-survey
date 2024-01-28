@@ -1,6 +1,6 @@
 import 'package:apexive_test/core/router/routes.dart';
 import 'package:apexive_test/core/widgets/gradient_body.dart';
-import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
 import 'package:apexive_test/feature/timer/presentation/widget/empty_timer_widget.dart';
 import 'package:apexive_test/feature/timer/presentation/widget/timesheet_tile.dart';
@@ -23,43 +23,42 @@ class _TimerScreenState extends State<TimerScreen> {
         child: Expanded(
           child: Column(
             children: [
-              //header of page [AppBar]
+              //header of page
               const _Header(),
 
               //body=> content of page
               Expanded(
-                child: BlocConsumer<TimerCubit, List<TimeSheets>>(
-                    listener: (context, state) {},
+                child: BlocBuilder<TimerCubit, List<TimeSheets>>(
                     builder: (context, state) {
-                      if (state.isEmpty) {
-                        return const EmptyTimerWidget();
-                      }
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (state.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Text(
-                                'You have ${state.length} timers',
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
-                          Expanded(
-                            child: ListView.builder(
-                              padding: EdgeInsets.zero,
-                              itemCount: state.length,
-                              itemBuilder: (context, index) {
-                                return TimeSheetTile(
-                                  timeSheets: state[index],
-                                  index: index,
-                                );
-                              },
-                            ),
+                  if (state.isEmpty) {
+                    return const EmptyTimerWidget();
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (state.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            'You have ${state.length} timers',
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
-                        ],
-                      );
-                    }),
+                        ),
+                      Expanded(
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: state.length,
+                          itemBuilder: (context, index) {
+                            return TimeSheetTile(
+                              timeSheets: state[index],
+                              index: index,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }),
               )
             ],
           ),

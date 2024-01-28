@@ -1,8 +1,8 @@
 import 'package:apexive_test/core/extensions/duration_extension.dart';
 import 'package:apexive_test/core/router/routes.dart';
 import 'package:apexive_test/core/widgets/circular_icon_button.dart';
-import 'package:apexive_test/feature/timer/cubit/current_time_sheets_cubit.dart';
-import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/current_time_sheet_cubit/current_time_sheets_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
 import 'package:apexive_test/feature/timer/presentation/widget/timesheet_label.dart';
 import 'package:flutter/material.dart';
@@ -65,11 +65,13 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                   return InkWell(
                     onTap: () {
                       if (state[widget.index].hasStarted) {
+                        //pause
                         context
                             .read<TimerCubit>()
                             .stopTimer(timeSheets: widget.timeSheets);
                         return;
                       }
+                      //resume timer
                       context
                           .read<TimerCubit>()
                           .startTimer(timeSheets: widget.timeSheets);

@@ -15,7 +15,7 @@ class TimerCubit extends HydratedCubit<List<TimeSheets>> {
   }
 
   void addTimeSheets({required TimeSheets timeSheets}) async {
-    final timeSheetList = [...state, timeSheets];
+    final timeSheetList = [timeSheets, ...state];
     emit(timeSheetList);
   }
 
@@ -31,12 +31,10 @@ class TimerCubit extends HydratedCubit<List<TimeSheets>> {
           duration: Duration(
             seconds: currentTimeSheets.duration.inSeconds + 1,
           ),
-          createdAt: DateTime.now(),
           timer: timer,
         );
         final updatedState = List<TimeSheets>.from(state);
         updatedState[index] = newTimeSheets;
-
         emit(updatedState);
       },
     );

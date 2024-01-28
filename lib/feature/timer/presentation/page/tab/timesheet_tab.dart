@@ -2,7 +2,7 @@ import 'package:apexive_test/core/extensions/context_extension.dart';
 import 'package:apexive_test/core/extensions/date_extension.dart';
 import 'package:apexive_test/core/extensions/duration_extension.dart';
 import 'package:apexive_test/core/widgets/circular_icon_button.dart';
-import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/presentation/widget/description_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

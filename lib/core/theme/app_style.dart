@@ -6,9 +6,9 @@ final appTheme = _getAppTheme();
 final _colorScheme = ColorScheme.fromSeed(
   seedColor: AppColors.backgroundColor,
   onSurface: Colors.white,
-  primaryContainer: AppColors.secondaryBackgroundColor,
+  primaryContainer: AppColors.primaryContainerColor,
   onPrimaryContainer: Colors.white,
-  secondaryContainer: AppColors.tertiaryBackgroundColor,
+  secondaryContainer: AppColors.secondaryContainerColor,
   onSecondaryContainer: Colors.white,
 );
 
@@ -81,7 +81,7 @@ ThemeData _getAppTheme() {
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
         backgroundColor: const MaterialStatePropertyAll(
-          AppColors.secondaryBackgroundColor,
+          AppColors.primaryContainerColor,
         ),
         shape: MaterialStatePropertyAll(
           RoundedRectangleBorder(
@@ -91,10 +91,14 @@ ThemeData _getAppTheme() {
       ),
     ),
     checkboxTheme: const CheckboxThemeData(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.white),
-      ),
-    ),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: Colors.white,
+          ),
+        ),
+        side: BorderSide(
+          color: Colors.white,
+        )),
     inputDecorationTheme: const InputDecorationTheme(
       isDense: true,
       iconColor: Colors.white,
