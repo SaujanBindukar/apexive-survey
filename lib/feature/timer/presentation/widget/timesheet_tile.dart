@@ -1,3 +1,5 @@
+import 'package:apexive_test/core/extensions/date_extension.dart';
+import 'package:apexive_test/core/extensions/duration_extension.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +46,12 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.star_border),
+                      Icon(widget.timeSheets.isFavourite
+                          ? Icons.star
+                          : Icons.star_border),
                       const SizedBox(width: 8),
                       Text(
-                        'iOS App Development',
+                        widget.timeSheets.taskName ?? '',
                         style: Theme.of(context).textTheme.titleMedium,
                       )
                     ],
@@ -59,7 +63,7 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                         const Icon(Icons.business_center_outlined),
                         const SizedBox(width: 8),
                         Text(
-                          'Project Name',
+                          widget.timeSheets.projectName ?? '',
                           style: Theme.of(context).textTheme.bodyMedium,
                         )
                       ],
@@ -69,8 +73,9 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                     children: [
                       const Icon(Icons.schedule),
                       const SizedBox(width: 8),
+                      const Text('Deadline: '),
                       Text(
-                        'Project Name',
+                        widget.timeSheets.createdAt.formattedDate,
                         style: Theme.of(context).textTheme.bodyMedium,
                       )
                     ],
@@ -78,10 +83,7 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                 ],
               ),
             ),
-            BlocConsumer<TimerCubit, List<TimeSheets>>(
-              listener: (context, state) {
-                print(state);
-              },
+            BlocBuilder<TimerCubit, List<TimeSheets>>(
               builder: (context, state) {
                 return Container(
                   padding: const EdgeInsets.symmetric(
@@ -95,7 +97,7 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                   child: Row(
                     children: [
                       Text(
-                        state[widget.index].duration.inSeconds.toString(),
+                        state[widget.index].duration.getDuration(),
                         style: Theme.of(context)
                             .textTheme
                             .labelLarge
@@ -103,12 +105,20 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                       ),
                       InkWell(
                         onTap: () {
+                          if (state[widget.index].hasStarted) {
+                            context
+                                .read<TimerCubit>()
+                                .stopTimer(index: widget.index);
+                            return;
+                          }
                           context
                               .read<TimerCubit>()
                               .startTimer(index: widget.index);
                         },
-                        child: const Icon(
-                          Icons.play_arrow,
+                        child: Icon(
+                          state[widget.index].hasStarted
+                              ? Icons.pause
+                              : Icons.play_arrow,
                           color: Colors.black,
                         ),
                       ),

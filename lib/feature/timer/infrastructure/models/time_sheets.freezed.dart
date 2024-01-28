@@ -20,11 +20,16 @@ TimeSheets _$TimeSheetsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TimeSheets {
-  String get projectName => throw _privateConstructorUsedError;
-  String get taskName => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  String get createdAt => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String? get projectName => throw _privateConstructorUsedError;
+  String? get taskName => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  bool get isFavourite => throw _privateConstructorUsedError;
+  bool get hasStarted => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false)
+  Timer? get timer => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,11 +44,15 @@ abstract class $TimeSheetsCopyWith<$Res> {
       _$TimeSheetsCopyWithImpl<$Res, TimeSheets>;
   @useResult
   $Res call(
-      {String projectName,
-      String taskName,
-      String description,
-      String createdAt,
-      Duration duration});
+      {String id,
+      String? projectName,
+      String? taskName,
+      String? description,
+      DateTime createdAt,
+      bool isFavourite,
+      bool hasStarted,
+      Duration duration,
+      @JsonKey(includeFromJson: false) Timer? timer});
 }
 
 /// @nodoc
@@ -59,33 +68,53 @@ class _$TimeSheetsCopyWithImpl<$Res, $Val extends TimeSheets>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? projectName = null,
-    Object? taskName = null,
-    Object? description = null,
+    Object? id = null,
+    Object? projectName = freezed,
+    Object? taskName = freezed,
+    Object? description = freezed,
     Object? createdAt = null,
+    Object? isFavourite = null,
+    Object? hasStarted = null,
     Object? duration = null,
+    Object? timer = freezed,
   }) {
     return _then(_value.copyWith(
-      projectName: null == projectName
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      projectName: freezed == projectName
           ? _value.projectName
           : projectName // ignore: cast_nullable_to_non_nullable
-              as String,
-      taskName: null == taskName
+              as String?,
+      taskName: freezed == taskName
           ? _value.taskName
           : taskName // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasStarted: null == hasStarted
+          ? _value.hasStarted
+          : hasStarted // ignore: cast_nullable_to_non_nullable
+              as bool,
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as Duration,
+      timer: freezed == timer
+          ? _value.timer
+          : timer // ignore: cast_nullable_to_non_nullable
+              as Timer?,
     ) as $Val);
   }
 }
@@ -99,11 +128,15 @@ abstract class _$$TimeSheetsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String projectName,
-      String taskName,
-      String description,
-      String createdAt,
-      Duration duration});
+      {String id,
+      String? projectName,
+      String? taskName,
+      String? description,
+      DateTime createdAt,
+      bool isFavourite,
+      bool hasStarted,
+      Duration duration,
+      @JsonKey(includeFromJson: false) Timer? timer});
 }
 
 /// @nodoc
@@ -117,33 +150,53 @@ class __$$TimeSheetsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? projectName = null,
-    Object? taskName = null,
-    Object? description = null,
+    Object? id = null,
+    Object? projectName = freezed,
+    Object? taskName = freezed,
+    Object? description = freezed,
     Object? createdAt = null,
+    Object? isFavourite = null,
+    Object? hasStarted = null,
     Object? duration = null,
+    Object? timer = freezed,
   }) {
     return _then(_$TimeSheetsImpl(
-      projectName: null == projectName
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      projectName: freezed == projectName
           ? _value.projectName
           : projectName // ignore: cast_nullable_to_non_nullable
-              as String,
-      taskName: null == taskName
+              as String?,
+      taskName: freezed == taskName
           ? _value.taskName
           : taskName // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasStarted: null == hasStarted
+          ? _value.hasStarted
+          : hasStarted // ignore: cast_nullable_to_non_nullable
+              as bool,
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as Duration,
+      timer: freezed == timer
+          ? _value.timer
+          : timer // ignore: cast_nullable_to_non_nullable
+              as Timer?,
     ));
   }
 }
@@ -152,30 +205,45 @@ class __$$TimeSheetsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TimeSheetsImpl implements _TimeSheets {
   const _$TimeSheetsImpl(
-      {required this.projectName,
-      required this.taskName,
+      {required this.id,
+      this.projectName,
+      this.taskName,
       required this.description,
       required this.createdAt,
-      this.duration = const Duration(seconds: 0)});
+      this.isFavourite = false,
+      this.hasStarted = false,
+      this.duration = const Duration(seconds: 0),
+      @JsonKey(includeFromJson: false) this.timer});
 
   factory _$TimeSheetsImpl.fromJson(Map<String, dynamic> json) =>
       _$$TimeSheetsImplFromJson(json);
 
   @override
-  final String projectName;
+  final String id;
   @override
-  final String taskName;
+  final String? projectName;
   @override
-  final String description;
+  final String? taskName;
   @override
-  final String createdAt;
+  final String? description;
+  @override
+  final DateTime createdAt;
+  @override
+  @JsonKey()
+  final bool isFavourite;
+  @override
+  @JsonKey()
+  final bool hasStarted;
   @override
   @JsonKey()
   final Duration duration;
+  @override
+  @JsonKey(includeFromJson: false)
+  final Timer? timer;
 
   @override
   String toString() {
-    return 'TimeSheets(projectName: $projectName, taskName: $taskName, description: $description, createdAt: $createdAt, duration: $duration)';
+    return 'TimeSheets(id: $id, projectName: $projectName, taskName: $taskName, description: $description, createdAt: $createdAt, isFavourite: $isFavourite, hasStarted: $hasStarted, duration: $duration, timer: $timer)';
   }
 
   @override
@@ -183,6 +251,7 @@ class _$TimeSheetsImpl implements _TimeSheets {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TimeSheetsImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.projectName, projectName) ||
                 other.projectName == projectName) &&
             (identical(other.taskName, taskName) ||
@@ -191,14 +260,19 @@ class _$TimeSheetsImpl implements _TimeSheets {
                 other.description == description) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
+            (identical(other.hasStarted, hasStarted) ||
+                other.hasStarted == hasStarted) &&
             (identical(other.duration, duration) ||
-                other.duration == duration));
+                other.duration == duration) &&
+            (identical(other.timer, timer) || other.timer == timer));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, projectName, taskName, description, createdAt, duration);
+  int get hashCode => Object.hash(runtimeType, id, projectName, taskName,
+      description, createdAt, isFavourite, hasStarted, duration, timer);
 
   @JsonKey(ignore: true)
   @override
@@ -216,25 +290,38 @@ class _$TimeSheetsImpl implements _TimeSheets {
 
 abstract class _TimeSheets implements TimeSheets {
   const factory _TimeSheets(
-      {required final String projectName,
-      required final String taskName,
-      required final String description,
-      required final String createdAt,
-      final Duration duration}) = _$TimeSheetsImpl;
+      {required final String id,
+      final String? projectName,
+      final String? taskName,
+      required final String? description,
+      required final DateTime createdAt,
+      final bool isFavourite,
+      final bool hasStarted,
+      final Duration duration,
+      @JsonKey(includeFromJson: false) final Timer? timer}) = _$TimeSheetsImpl;
 
   factory _TimeSheets.fromJson(Map<String, dynamic> json) =
       _$TimeSheetsImpl.fromJson;
 
   @override
-  String get projectName;
+  String get id;
   @override
-  String get taskName;
+  String? get projectName;
   @override
-  String get description;
+  String? get taskName;
   @override
-  String get createdAt;
+  String? get description;
+  @override
+  DateTime get createdAt;
+  @override
+  bool get isFavourite;
+  @override
+  bool get hasStarted;
   @override
   Duration get duration;
+  @override
+  @JsonKey(includeFromJson: false)
+  Timer? get timer;
   @override
   @JsonKey(ignore: true)
   _$$TimeSheetsImplCopyWith<_$TimeSheetsImpl> get copyWith =>

@@ -8,11 +8,15 @@ part 'time_sheets.g.dart';
 @freezed
 class TimeSheets with _$TimeSheets {
   const factory TimeSheets({
-    required String projectName,
-    required String taskName,
-    required String description,
-    required String createdAt,
+    required String id,
+    String? projectName,
+    String? taskName,
+    required String? description,
+    required DateTime createdAt,
+    @Default(false) bool isFavourite,
+    @Default(false) bool hasStarted,
     @Default(Duration(seconds: 0)) Duration duration,
+    @JsonKey(includeFromJson: false) Timer? timer,
   }) = _TimeSheets;
   factory TimeSheets.fromJson(Map<String, dynamic> json) =>
       _$TimeSheetsFromJson(json);

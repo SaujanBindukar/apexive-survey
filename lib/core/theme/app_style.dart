@@ -39,21 +39,49 @@ TextTheme _getTextTheme() {
 
 ThemeData _getAppTheme() {
   return ThemeData(
-      textTheme: _getTextTheme(),
-      colorScheme: _colorScheme,
-      iconTheme: const IconThemeData(
-        color: Colors.white,
-      ),
-      iconButtonTheme: IconButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: const MaterialStatePropertyAll(
-            AppColors.secondaryBackgroundColor,
-          ),
-          shape: MaterialStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
+    textTheme: _getTextTheme(),
+    colorScheme: _colorScheme,
+    iconTheme: const IconThemeData(
+      color: Colors.white,
+    ),
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: const MaterialStatePropertyAll(
+          AppColors.secondaryBackgroundColor,
+        ),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
-      ));
+      ),
+    ),
+    checkboxTheme: const CheckboxThemeData(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.white),
+      ),
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      isDense: true,
+      iconColor: Colors.white,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.white,
+          width: 0.1,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.white,
+          width: 0.1,
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.white,
+          width: 0.1,
+        ),
+      ),
+    ),
+  );
 }
