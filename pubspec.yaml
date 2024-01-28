@@ -19,6 +19,7 @@ dependencies:
 
   path_provider: ^2.1.2
   uuid: ^4.3.3
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_test:

@@ -18,12 +18,8 @@ class TimeSheetDetailScreen extends StatelessWidget {
                 _Header(),
                 TabBar(
                   tabs: [
-                    Tab(
-                      text: 'TimeSheets',
-                    ),
-                    Tab(
-                      text: 'Details',
-                    )
+                    Tab(text: 'TimeSheets'),
+                    Tab(text: 'Details'),
                   ],
                 ),
                 Expanded(

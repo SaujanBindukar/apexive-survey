@@ -1,8 +1,10 @@
-import 'package:apexive_test/core/extensions/date_extension.dart';
 import 'package:apexive_test/core/extensions/duration_extension.dart';
 import 'package:apexive_test/core/router/routes.dart';
+import 'package:apexive_test/core/widgets/circular_icon_button.dart';
+import 'package:apexive_test/feature/timer/cubit/current_time_sheets_cubit.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
+import 'package:apexive_test/feature/timer/presentation/widget/timesheet_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -25,6 +27,9 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        context.read<CurrentTimeSheetsCubit>().setCurrentTimeSheets(
+              timeSheets: widget.timeSheets,
+            );
         context.push(Routes.timeSheetDetailScreen);
       },
       child: Container(
@@ -49,42 +54,9 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Icon(widget.timeSheets.isFavourite
-                            ? Icons.star
-                            : Icons.star_border),
-                        const SizedBox(width: 8),
-                        Text(
-                          widget.timeSheets.taskName ?? '',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.business_center_outlined),
-                          const SizedBox(width: 8),
-                          Text(
-                            widget.timeSheets.projectName ?? '',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          )
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.schedule),
-                        const SizedBox(width: 8),
-                        const Text('Deadline: '),
-                        Text(
-                          widget.timeSheets.createdAt.formattedDate,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        )
-                      ],
-                    ),
+                    TaskLabel(timeSheets: widget.timeSheets),
+                    ProjectLabel(timeSheets: widget.timeSheets),
+                    DeadlineLabel(timeSheets: widget.timeSheets),
                   ],
                 ),
               ),
@@ -95,49 +67,59 @@ class _TimeSheetTileState extends State<TimeSheetTile> {
                       if (state[widget.index].hasStarted) {
                         context
                             .read<TimerCubit>()
-                            .stopTimer(index: widget.index);
+                            .stopTimer(timeSheets: widget.timeSheets);
                         return;
                       }
                       context
                           .read<TimerCubit>()
-                          .startTimer(index: widget.index);
+                          .startTimer(timeSheets: widget.timeSheets);
                     },
-                    child: AnimatedContainer(
-                      duration: const Duration(seconds: 1),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: state[widget.index].hasStarted
-                            ? Colors.white
-                            : Theme.of(context).colorScheme.secondaryContainer,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            state[widget.index].duration.getDuration(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge
-                                ?.copyWith(
+                    child: state[widget.index].isCompleted
+                        ? CircularIconButton(
+                            onPressed: () {},
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            iconData: Icons.done,
+                          )
+                        : AnimatedContainer(
+                            duration: const Duration(seconds: 1),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: state[widget.index].hasStarted
+                                  ? Colors.white
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  state[widget.index].duration.getDuration(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        color: state[widget.index].hasStarted
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
+                                ),
+                                Icon(
+                                  state[widget.index].hasStarted
+                                      ? Icons.pause
+                                      : Icons.play_arrow,
                                   color: state[widget.index].hasStarted
                                       ? Colors.black
                                       : Colors.white,
                                 ),
+                              ],
+                            ),
                           ),
-                          Icon(
-                            state[widget.index].hasStarted
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                            color: state[widget.index].hasStarted
-                                ? Colors.black
-                                : Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
                   );
                 },
               )

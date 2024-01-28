@@ -19,26 +19,41 @@ class TimerCubit extends HydratedCubit<List<TimeSheets>> {
     emit(timeSheetList);
   }
 
-  void startTimer({required int index}) {
+  void startTimer({required TimeSheets timeSheets}) {
+    final index = state.indexOf(timeSheets);
     Timer? timer = state[index].timer;
-    timer = Timer.periodic(const Duration(seconds: 1), (timer1) {
-      final currentTimeSheets = state[index];
-      final newTimeSheets = currentTimeSheets.copyWith(
-        hasStarted: true,
-        duration: Duration(
-          seconds: currentTimeSheets.duration.inSeconds + 1,
-        ),
-        createdAt: DateTime.now(),
-        timer: timer,
-      );
-      final updatedState = List<TimeSheets>.from(state);
-      updatedState[index] = newTimeSheets;
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer1) {
+        final currentTimeSheets = state[index];
+        final newTimeSheets = currentTimeSheets.copyWith(
+          hasStarted: true,
+          duration: Duration(
+            seconds: currentTimeSheets.duration.inSeconds + 1,
+          ),
+          createdAt: DateTime.now(),
+          timer: timer,
+        );
+        final updatedState = List<TimeSheets>.from(state);
+        updatedState[index] = newTimeSheets;
 
-      emit(updatedState);
-    });
+        emit(updatedState);
+      },
+    );
   }
 
-  void stopTimer({required int index}) {
+  void completeTimer({required TimeSheets timeSheets}) {
+    final index = state.indexOf(timeSheets);
+    state[index].timer?.cancel();
+    final updatedState = List<TimeSheets>.from(state);
+    updatedState[index] = state[index].copyWith(
+      isCompleted: true,
+    );
+    emit(updatedState);
+  }
+
+  void stopTimer({required TimeSheets timeSheets}) {
+    final index = state.indexOf(timeSheets);
     state[index].timer?.cancel();
     final updatedState = List<TimeSheets>.from(state);
     updatedState[index] = state[index].copyWith(

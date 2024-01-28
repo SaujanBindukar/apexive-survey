@@ -1,5 +1,6 @@
 import 'package:apexive_test/core/router/app_router.dart';
 import 'package:apexive_test/core/theme/app_style.dart';
+import 'package:apexive_test/feature/timer/cubit/current_time_sheets_cubit.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +12,12 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
   );
-  // await HydratedBloc.storage.clear();
+  await HydratedBloc.storage.clear();
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => TimerCubit()),
+        BlocProvider(create: (context) => CurrentTimeSheetsCubit()),
       ],
       child: const MyApp(),
     ),

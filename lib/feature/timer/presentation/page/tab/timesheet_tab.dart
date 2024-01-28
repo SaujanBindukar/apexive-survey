@@ -1,13 +1,25 @@
+import 'package:apexive_test/core/extensions/context_extension.dart';
 import 'package:apexive_test/core/extensions/date_extension.dart';
-import 'package:apexive_test/core/theme/app_colors.dart';
+import 'package:apexive_test/core/extensions/duration_extension.dart';
+import 'package:apexive_test/core/widgets/circular_icon_button.dart';
+import 'package:apexive_test/feature/timer/cubit/timer_cubit.dart';
+import 'package:apexive_test/feature/timer/presentation/widget/description_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TimeSheetTabView extends StatelessWidget {
-  const TimeSheetTabView({super.key});
+  const TimeSheetTabView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final currentTimeSheets = context.getCurrentTimeSheets;
     final textTheme = Theme.of(context).textTheme;
+    if (currentTimeSheets == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Column(
       children: [
         Container(
@@ -15,92 +27,112 @@ class TimeSheetTabView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Theme.of(context).colorScheme.primaryContainer),
+            borderRadius: BorderRadius.circular(8),
+            color: Theme.of(context).colorScheme.primaryContainer,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                DateTime.now().formattedDay,
+                currentTimeSheets.createdAt.formattedDay,
+                style: textTheme.bodySmall,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Text(
+                  currentTimeSheets.createdAt.formattedDate,
+                  style: textTheme.titleMedium,
+                ),
+              ),
+              Text(
+                'Start Time ${currentTimeSheets.createdAt.formattedTime}',
                 style: textTheme.bodySmall,
               ),
               const SizedBox(height: 4),
-              Text(
-                DateTime.now().formattedDate,
-                style: textTheme.titleMedium,
+              const _Duration(),
+              const _Divider(),
+              DescriptionWidget(
+                description: currentTimeSheets.description ?? '',
+                enableEdit: true,
               ),
-              const SizedBox(height: 4),
-              Text(
-                'Start Time ${DateTime.now().formattedTime}',
-                style: textTheme.bodySmall,
-              ),
-              const SizedBox(height: 4),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '08:08:20',
-                    style: textTheme.displaySmall,
-                  ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          child: Icon(
-                            Icons.stop,
-                            size: 30,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSecondaryContainer,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {},
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onSecondaryContainer,
-                          child: Icon(
-                            Icons.pause_sharp,
-                            size: 30,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .secondaryContainer,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-              const SizedBox(height: 20),
-              const Divider(thickness: 0.2),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Description',
-                    style: textTheme.bodySmall,
-                  ),
-                  const Icon(Icons.edit)
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Sync with Client, communicate, work on the new design with designer, new tasks preparation call with the front end',
-                style: textTheme.bodyMedium,
-              )
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _Duration extends StatelessWidget {
+  const _Duration();
+
+  @override
+  Widget build(BuildContext context) {
+    final currentTimeSheets = context.getCurrentTimeSheets;
+    final textTheme = Theme.of(context).textTheme;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          currentTimeSheets!.duration.getDuration(),
+          style: textTheme.displaySmall,
+        ),
+        currentTimeSheets.isCompleted
+            ? CircularIconButton(
+                iconData: Icons.done,
+                onPressed: () {},
+              )
+            : Row(
+                children: [
+                  CircularIconButton(
+                    onPressed: () {
+                      context.showFlushBar(
+                        context: context,
+                        message: 'Timesheet completed',
+                      );
+                      context
+                          .read<TimerCubit>()
+                          .completeTimer(timeSheets: currentTimeSheets);
+                    },
+                    iconData: Icons.stop,
+                  ),
+                  const SizedBox(width: 10),
+                  CircularIconButton(
+                    onPressed: () {
+                      if (currentTimeSheets.hasStarted) {
+                        context
+                            .read<TimerCubit>()
+                            .stopTimer(timeSheets: currentTimeSheets);
+                        return;
+                      }
+                      context
+                          .read<TimerCubit>()
+                          .startTimer(timeSheets: currentTimeSheets);
+                    },
+                    backgroundColor:
+                        Theme.of(context).colorScheme.onSecondaryContainer,
+                    iconColor: Theme.of(context).colorScheme.secondaryContainer,
+                    iconData: currentTimeSheets.hasStarted
+                        ? Icons.pause_sharp
+                        : Icons.play_arrow_sharp,
+                  )
+                ],
+              )
+      ],
+    );
+  }
+}
+
+class _Divider extends StatelessWidget {
+  const _Divider();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        SizedBox(height: 20),
+        Divider(thickness: 0.2),
+        SizedBox(height: 10),
       ],
     );
   }
