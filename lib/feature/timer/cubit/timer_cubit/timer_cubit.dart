@@ -6,14 +6,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 class TimerCubit extends HydratedCubit<List<TimeSheets>> {
   TimerCubit() : super([]);
 
-  @override
-  Future<void> close() {
-    for (var element in state) {
-      element.timer?.cancel();
-    }
-    return super.close();
-  }
-
   void addTimeSheets({required TimeSheets timeSheets}) async {
     final timeSheetList = [timeSheets, ...state];
     emit(timeSheetList);
@@ -74,5 +66,13 @@ class TimerCubit extends HydratedCubit<List<TimeSheets>> {
   @override
   Map<String, dynamic>? toJson(List<TimeSheets> state) {
     return {'timeSheetsList': state.map((e) => e.toJson()).toList()};
+  }
+
+  @override
+  Future<void> close() {
+    for (var element in state) {
+      element.timer?.cancel();
+    }
+    return super.close();
   }
 }
