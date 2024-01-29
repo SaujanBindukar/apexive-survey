@@ -12,7 +12,6 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
   );
-  await HydratedBloc.storage.clear();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -32,7 +31,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Apexive',
       debugShowCheckedModeBanner: false,
-      theme: appTheme,
+      //Light mode theme
+      theme: appLightTheme,
       routerConfig: router,
     );
   }
