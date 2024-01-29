@@ -1,11 +1,8 @@
 <table>
-  <tr>
-    <td>Light Mode</td>
-     <td>Dark Mode</td>
-  </tr>
+ 
 
 <tr>
-    <td><img style="display: inline-block " src="https://github.com/SaujanBindukar/apexive-survey/assets/34705432/e63bb552-530a-4e27-925b-266919807593.png" height="600" width="350"
+    <td><img style="display: inline-block " src="https://github.com/SaujanBindukar/apexive-survey/assets/34705432/e63bb552-530a-4e27-925b-266919807593.png" height="700" width="350"
 />
 <!--     </td>
     <td><img style="display: inline-block" src="https://github.com/SaujanBindukar/flutter_starter_template/assets/34705432/09409a2f-22ce-421a-a2ea-d1c6a9d23332.png" height="600" width="350"
