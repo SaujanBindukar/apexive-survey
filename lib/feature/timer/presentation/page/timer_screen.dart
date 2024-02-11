@@ -1,4 +1,5 @@
 import 'package:apexive_test/core/router/routes.dart';
+import 'package:apexive_test/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:apexive_test/core/widgets/gradient_body.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
@@ -80,6 +81,16 @@ class _Header extends StatelessWidget {
           'Timesheets',
           style: Theme.of(context).textTheme.headlineLarge,
         ),
+        BlocBuilder<ThemeCubit, ThemeMode>(
+          builder: (context, state) {
+            return Switch.adaptive(
+              value: state == ThemeMode.dark,
+              onChanged: (value) {
+                context.read<ThemeCubit>().changeTheme();
+              },
+            );
+          },
+        ),
         IconButton.filled(
           onPressed: () {
             context.push(Routes.createTimeSheetScreen);
@@ -88,7 +99,7 @@ class _Header extends StatelessWidget {
             Icons.add,
             size: 30,
           ),
-        )
+        ),
       ],
     );
   }
