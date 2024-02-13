@@ -1,8 +1,8 @@
 import 'package:apexive_test/bloc_observer.dart';
+import 'package:apexive_test/core/app/cubit/app_cubit.dart';
+import 'package:apexive_test/core/app/cubit/app_cubit_builder.dart';
 import 'package:apexive_test/core/router/app_router.dart';
-import 'package:apexive_test/core/theme/app_style.dart';
 import 'package:apexive_test/core/theme/app_theme.dart';
-import 'package:apexive_test/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:apexive_test/feature/timer/cubit/current_time_sheet_cubit/current_time_sheets_cubit.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,8 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => AppCubit()),
+        BlocProvider(create: (context) => AppCubit()),
         BlocProvider(create: (context) => TimerCubit()),
         BlocProvider(create: (context) => CurrentTimeSheetsCubit()),
       ],
@@ -33,12 +34,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeMode>(
+    return AppCubitBuilder(
       builder: (context, state) {
         return MaterialApp.router(
           title: 'Apexive',
           debugShowCheckedModeBanner: false,
-          themeMode: state,
+          themeMode: state.themeMode,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
           routerConfig: router,
         );
       },
