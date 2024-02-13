@@ -4,6 +4,7 @@ import 'package:apexive_test/core/app/cubit/app_cubit_builder.dart';
 import 'package:apexive_test/core/router/app_router.dart';
 import 'package:apexive_test/core/theme/app_theme.dart';
 import 'package:apexive_test/feature/timer/cubit/current_time_sheet_cubit/current_time_sheets_cubit.dart';
+import 'package:apexive_test/feature/timer/cubit/time_sheet_data_cubit/time_sheet_data_cubit.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,8 +21,8 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AppCubit()),
-        BlocProvider(create: (context) => AppCubit()),
         BlocProvider(create: (context) => TimerCubit()),
+        BlocProvider(create: (context) => TimeSheetDataCubit()),
         BlocProvider(create: (context) => CurrentTimeSheetsCubit()),
       ],
       child: const MyApp(),

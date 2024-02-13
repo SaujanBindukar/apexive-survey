@@ -38,22 +38,23 @@ class AppTheme {
         side: BorderSide(
           color: Colors.white,
         )),
-    inputDecorationTheme: const InputDecorationTheme(
+    inputDecorationTheme: InputDecorationTheme(
       isDense: true,
       iconColor: Colors.white,
-      enabledBorder: OutlineInputBorder(
+      hintStyle: AppStyles.getLightTextTheme().bodyLarge,
+      enabledBorder: const OutlineInputBorder(
         borderSide: BorderSide(
           color: Colors.white,
           width: 0.1,
         ),
       ),
-      focusedBorder: OutlineInputBorder(
+      focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
           color: Colors.white,
           width: 0.1,
         ),
       ),
-      border: OutlineInputBorder(
+      border: const OutlineInputBorder(
         borderSide: BorderSide(
           color: Colors.white,
           width: 0.1,

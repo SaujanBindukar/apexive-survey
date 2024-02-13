@@ -29,7 +29,7 @@ class GradientBody extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).padding.top,
           ),
-          child,
+          Expanded(child: child),
         ],
       ),
     );

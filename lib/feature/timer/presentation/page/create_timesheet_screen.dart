@@ -1,8 +1,10 @@
 import 'package:apexive_test/core/extensions/context_extension.dart';
-import 'package:apexive_test/core/theme/app_colors.dart';
 import 'package:apexive_test/core/utils/fake_data.dart';
 import 'package:apexive_test/core/widgets/custom_button.dart';
+import 'package:apexive_test/core/widgets/custom_dropdown.dart';
 import 'package:apexive_test/core/widgets/gradient_body.dart';
+import 'package:apexive_test/core/widgets/herader.dart';
+import 'package:apexive_test/feature/timer/cubit/time_sheet_data_cubit/time_sheet_data_builder.dart';
 import 'package:apexive_test/feature/timer/cubit/time_sheet_data_cubit/time_sheet_data_cubit.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
@@ -15,125 +17,78 @@ class CreateTimeSheetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const Scaffold(
+      body: GradientBody(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Column(
+            children: [
+              Header(text: 'Create Timer'),
+              _TimeSheetForm(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TimeSheetForm extends StatelessWidget {
+  const _TimeSheetForm();
+
+  @override
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return BlocProvider(
       create: (context) => TimeSheetDataCubit(),
-      child: BlocBuilder<TimeSheetDataCubit, TimeSheets>(
-        builder: (context, state) {
-          return Scaffold(
-            body: GradientBody(
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    children: [
-                      const _Header(),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 30),
-                            DropdownButtonFormField<String>(
-                              value: state.projectName,
-                              hint: Text(
-                                'Project',
-                                style: textTheme.bodyLarge,
-                              ),
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Colors.white,
-                              ),
-                              dropdownColor: AppColors.backgroundColor,
-                              items: FakeData.projectList
-                                  .map(
-                                    (e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text(e),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (value) {
-                                context
-                                    .read<TimeSheetDataCubit>()
-                                    .setProjectName(projectName: value ?? '');
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            DropdownButtonFormField<String>(
-                              value: state.taskName,
-                              hint: Text(
-                                'Task',
-                                style: textTheme.bodyLarge,
-                              ),
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Colors.white,
-                              ),
-                              dropdownColor: AppColors.backgroundColor,
-                              items: FakeData.taskList
-                                  .map(
-                                    (e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text(e),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (value) {
-                                context
-                                    .read<TimeSheetDataCubit>()
-                                    .setTaskName(taskName: value ?? '');
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                hintText: 'Description',
-                                hintStyle: textTheme.bodyLarge,
-                              ),
-                              onChanged: (value) {
-                                context
-                                    .read<TimeSheetDataCubit>()
-                                    .setDescription(description: value);
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: Checkbox(
-                                    value: state.isFavourite,
-                                    onChanged: (value) {
-                                      context
-                                          .read<TimeSheetDataCubit>()
-                                          .setIsFavourite(isFavourite: value!);
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                Text(
-                                  'Make Favourite',
-                                  style: textTheme.bodyLarge,
-                                )
-                              ],
-                            ),
-                            const Spacer(),
-                            CustomButton(
-                                label: 'Create Timer',
-                                onPressed: () {
-                                  onCreateTimer(context: context);
-                                })
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+      child: TimesheetBlocBuilder(builder: (context, state) {
+        return Expanded(
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
+              CustomDropdown<String?>(
+                value: state.projectName,
+                hintText: 'Project',
+                items: FakeData.projectList,
+                onChanged: (value) {
+                  context
+                      .read<TimeSheetDataCubit>()
+                      .setProjectName(projectName: value ?? '');
+                },
               ),
-            ),
-          );
-        },
-      ),
+              CustomDropdown<String?>(
+                value: state.taskName,
+                items: FakeData.taskList,
+                onChanged: (value) {
+                  context.read<TimeSheetDataCubit>().setTaskName(
+                        taskName: value ?? '',
+                      );
+                },
+                hintText: 'Task',
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Description',
+                  hintStyle: textTheme.bodyLarge,
+                ),
+                onChanged: (value) {
+                  context
+                      .read<TimeSheetDataCubit>()
+                      .setDescription(description: value);
+                },
+              ),
+              const SizedBox(height: 20),
+              const _FavouriteButton(),
+              const Spacer(),
+              CustomButton(
+                  label: 'Create Timer',
+                  onPressed: () {
+                    onCreateTimer(context: context);
+                  })
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -168,30 +123,34 @@ class CreateTimeSheetScreen extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header();
+class _FavouriteButton extends StatelessWidget {
+  const _FavouriteButton();
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        InkWell(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: const Icon(
-            Icons.chevron_left,
-            size: 30,
+    return TimesheetBlocBuilder(builder: (context, state) {
+      return Row(
+        children: [
+          SizedBox(
+            height: 20,
+            width: 20,
+            child: Checkbox(
+              value: state.isFavourite,
+              onChanged: (value) {
+                context
+                    .read<TimeSheetDataCubit>()
+                    .setIsFavourite(isFavourite: value!);
+              },
+            ),
           ),
-        ),
-        Text(
-          'Create Timer',
-          style: textTheme.headlineSmall,
-        ),
-        const SizedBox(),
-      ],
-    );
+          const SizedBox(width: 20),
+          Text(
+            'Make Favourite',
+            style: textTheme.bodyLarge,
+          )
+        ],
+      );
+    });
   }
 }

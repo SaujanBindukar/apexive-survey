@@ -3,7 +3,7 @@ import 'package:apexive_test/core/app/cubit/app_cubit_builder.dart';
 import 'package:apexive_test/core/router/routes.dart';
 import 'package:apexive_test/core/widgets/gradient_body.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
-import 'package:apexive_test/feature/timer/infrastructure/models/time_sheets.dart';
+import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit_builder.dart';
 import 'package:apexive_test/feature/timer/presentation/widget/empty_timer_widget.dart';
 import 'package:apexive_test/feature/timer/presentation/widget/timesheet_tile.dart';
 import 'package:flutter/material.dart';
@@ -22,50 +22,55 @@ class _TimerScreenState extends State<TimerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GradientBody(
-        child: Expanded(
-          child: Column(
-            children: [
-              //header of page
-              const _Header(),
-
-              //body=> content of page
-              Expanded(
-                child: BlocBuilder<TimerCubit, List<TimeSheets>>(
-                    builder: (context, state) {
+        child: Column(
+          children: [
+            const _Header(),
+            Expanded(
+              child: TimerCubitBuilder(
+                builder: (context, state) {
                   if (state.isEmpty) {
                     return const EmptyTimerWidget();
                   }
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (state.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            'You have ${state.length} timers',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                        ),
-                      Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: state.length,
-                          itemBuilder: (context, index) {
-                            return TimeSheetTile(
-                              timeSheets: state[index],
-                              index: index,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-              )
-            ],
-          ),
+                  return const _TimeListBuilder();
+                },
+              ),
+            )
+          ],
         ),
       ),
+    );
+  }
+}
+
+class _TimeListBuilder extends StatelessWidget {
+  const _TimeListBuilder();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<TimerCubit>().state;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Text(
+            'You have ${state.length} timers',
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: state.length,
+            itemBuilder: (context, index) {
+              return TimeSheetTile(
+                timeSheets: state[index],
+                index: index,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -82,20 +87,7 @@ class _Header extends StatelessWidget {
           'Timesheets',
           style: Theme.of(context).textTheme.headlineLarge,
         ),
-        AppCubitBuilder(
-          builder: (context, state) {
-            return Switch.adaptive(
-              value: state.themeMode == ThemeMode.light,
-              onChanged: (value) {
-                context.read<AppCubit>().updateTheme(
-                      themeMode: state.themeMode == ThemeMode.light
-                          ? ThemeMode.dark
-                          : ThemeMode.light,
-                    );
-              },
-            );
-          },
-        ),
+        const _ThemeToggleSwitch(),
         IconButton.filled(
           onPressed: () {
             context.push(Routes.createTimeSheetScreen);
@@ -106,6 +98,28 @@ class _Header extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ThemeToggleSwitch extends StatelessWidget {
+  const _ThemeToggleSwitch();
+
+  @override
+  Widget build(BuildContext context) {
+    return AppCubitBuilder(
+      builder: (context, state) {
+        return Switch.adaptive(
+          value: state.themeMode == ThemeMode.light,
+          onChanged: (value) {
+            context.read<AppCubit>().updateTheme(
+                  themeMode: state.themeMode == ThemeMode.light
+                      ? ThemeMode.dark
+                      : ThemeMode.light,
+                );
+          },
+        );
+      },
     );
   }
 }

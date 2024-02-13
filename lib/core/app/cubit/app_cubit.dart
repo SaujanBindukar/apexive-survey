@@ -1,4 +1,4 @@
-import 'package:apexive_test/core/app/app_state.dart';
+import 'package:apexive_test/core/app/app_state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 

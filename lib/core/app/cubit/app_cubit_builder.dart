@@ -1,4 +1,4 @@
-import 'package:apexive_test/core/app/app_state.dart';
+import 'package:apexive_test/core/app/app_state/app_state.dart';
 import 'package:apexive_test/core/app/cubit/app_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
