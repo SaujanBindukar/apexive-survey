@@ -20,7 +20,6 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AppState {
-  AppState get AppState => throw _privateConstructorUsedError;
   ThemeMode get themeMode => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,9 +33,7 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res, AppState>;
   @useResult
-  $Res call({AppState AppState, ThemeMode themeMode});
-
-  $AppStateCopyWith<$Res> get AppState;
+  $Res call({ThemeMode themeMode});
 }
 
 /// @nodoc
@@ -52,27 +49,14 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? AppState = null,
     Object? themeMode = null,
   }) {
     return _then(_value.copyWith(
-      AppState: null == AppState
-          ? _value.AppState
-          : AppState // ignore: cast_nullable_to_non_nullable
-              as AppState,
       themeMode: null == themeMode
           ? _value.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
               as ThemeMode,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AppStateCopyWith<$Res> get AppState {
-    return $AppStateCopyWith<$Res>(_value.AppState, (value) {
-      return _then(_value.copyWith(AppState: value) as $Val);
-    });
   }
 }
 
@@ -84,10 +68,7 @@ abstract class _$$AppStateImplCopyWith<$Res>
       __$$AppStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AppState AppState, ThemeMode themeMode});
-
-  @override
-  $AppStateCopyWith<$Res> get AppState;
+  $Res call({ThemeMode themeMode});
 }
 
 /// @nodoc
@@ -101,14 +82,9 @@ class __$$AppStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? AppState = null,
     Object? themeMode = null,
   }) {
     return _then(_$AppStateImpl(
-      AppState: null == AppState
-          ? _value.AppState
-          : AppState // ignore: cast_nullable_to_non_nullable
-              as AppState,
       themeMode: null == themeMode
           ? _value.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
@@ -120,23 +96,18 @@ class __$$AppStateImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AppStateImpl implements _AppState {
-  const _$AppStateImpl(
-      {this.AppState = const AppState.started(),
-      this.themeMode = ThemeMode.light});
+  const _$AppStateImpl({this.themeMode = ThemeMode.light});
 
   factory _$AppStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$AppStateImplFromJson(json);
 
   @override
   @JsonKey()
-  final AppState AppState;
-  @override
-  @JsonKey()
   final ThemeMode themeMode;
 
   @override
   String toString() {
-    return 'AppState(AppState: $AppState, themeMode: $themeMode)';
+    return 'AppState(themeMode: $themeMode)';
   }
 
   @override
@@ -144,15 +115,13 @@ class _$AppStateImpl implements _AppState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppStateImpl &&
-            (identical(other.AppState, AppState) ||
-                other.AppState == AppState) &&
             (identical(other.themeMode, themeMode) ||
                 other.themeMode == themeMode));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, AppState, themeMode);
+  int get hashCode => Object.hash(runtimeType, themeMode);
 
   @JsonKey(ignore: true)
   @override
@@ -169,14 +138,11 @@ class _$AppStateImpl implements _AppState {
 }
 
 abstract class _AppState implements AppState {
-  const factory _AppState(
-      {final AppState AppState, final ThemeMode themeMode}) = _$AppStateImpl;
+  const factory _AppState({final ThemeMode themeMode}) = _$AppStateImpl;
 
   factory _AppState.fromJson(Map<String, dynamic> json) =
       _$AppStateImpl.fromJson;
 
-  @override
-  AppState get AppState;
   @override
   ThemeMode get themeMode;
   @override
