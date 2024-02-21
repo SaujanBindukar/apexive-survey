@@ -3,6 +3,8 @@ import 'package:apexive_test/core/app/cubit/app_cubit.dart';
 import 'package:apexive_test/core/app/cubit/app_cubit_builder.dart';
 import 'package:apexive_test/core/router/app_router.dart';
 import 'package:apexive_test/core/theme/app_theme.dart';
+import 'package:apexive_test/feature/album/cubit/album_cubit.dart';
+import 'package:apexive_test/feature/album/infrastructure/respository/album_repository.dart';
 import 'package:apexive_test/feature/timer/cubit/current_time_sheet_cubit/current_time_sheets_cubit.dart';
 import 'package:apexive_test/feature/timer/cubit/timer_cubit/timer_cubit.dart';
 import 'package:flutter/material.dart';
@@ -16,16 +18,28 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
   );
-  runApp(
-    MultiBlocProvider(
+  runApp(MultiRepositoryProvider(
+    providers: [
+      RepositoryProvider<AlbumRepository>(
+        create: (context) => AlbumRepository(),
+      ),
+    ],
+    child: MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AppCubit()),
         BlocProvider(create: (context) => TimerCubit()),
-        BlocProvider(create: (context) => CurrentTimeSheetsCubit()),
+        BlocProvider(
+          create: (context) => CurrentTimeSheetsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AlbumCubit(
+            albumRepository: context.read<AlbumRepository>(),
+          ),
+        ),
       ],
       child: const MyApp(),
     ),
-  );
+  ));
 }
 
 class MyApp extends StatelessWidget {

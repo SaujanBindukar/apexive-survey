@@ -6,23 +6,26 @@ import 'package:dio/dio.dart';
 const baseUrl = 'https://jsonplaceholder.typicode.com/';
 
 class DioClient {
-  static Dio getDio() {
-    final dio = Dio();
+  late Dio _dio;
 
-    dio.options.baseUrl = baseUrl;
-    dio.options.connectTimeout = const Duration(seconds: 30);
-    dio.options.receiveTimeout = const Duration(seconds: 30);
-    dio.options.contentType = Headers.jsonContentType;
+  DioClient() {
+    _dio = Dio();
 
-    dio.options.headers = <String, dynamic>{
+    _dio.options.baseUrl = baseUrl;
+    _dio.options.connectTimeout = const Duration(seconds: 30);
+    _dio.options.receiveTimeout = const Duration(seconds: 30);
+    _dio.options.contentType = Headers.jsonContentType;
+
+    _dio.options.headers = <String, dynamic>{
       'Accept': Headers.jsonContentType,
     };
-    dio.interceptors.addAll([
+    _dio.interceptors.addAll([
       LogInterceptor(),
       RequestInterceptors(),
       ResponseInterceptors(),
       ErrorInterceptors()
     ]);
-    return dio;
   }
+
+  Dio get dio => _dio;
 }

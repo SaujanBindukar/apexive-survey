@@ -1,3 +1,3 @@
-class AuthEndpoint {
-  static const String login = 'auth/login';
+class AlbumEP {
+  static const String getAlbumList = '/albums';
 }
