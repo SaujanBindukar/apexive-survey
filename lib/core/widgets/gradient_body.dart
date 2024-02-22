@@ -11,7 +11,6 @@ class GradientBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorTheme = Theme.of(context).textTheme;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       width: MediaQuery.of(context).size.width,
