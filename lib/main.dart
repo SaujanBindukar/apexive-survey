@@ -15,31 +15,44 @@ import 'package:path_provider/path_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = const AppBlocObserver();
+  await _initializeHydratedBloc();
+  runApp(const _AppRunner());
+}
+
+class _AppRunner extends StatelessWidget {
+  const _AppRunner();
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AlbumRepository>(
+          create: (context) => AlbumRepository(),
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => AppCubit()),
+          BlocProvider(create: (context) => TimerCubit()),
+          BlocProvider(
+            create: (context) => CurrentTimeSheetsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => AlbumCubit(
+              albumRepository: context.read<AlbumRepository>(),
+            ),
+          ),
+        ],
+        child: const MyApp(),
+      ),
+    );
+  }
+}
+
+Future<void> _initializeHydratedBloc() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
   );
-  runApp(MultiRepositoryProvider(
-    providers: [
-      RepositoryProvider<AlbumRepository>(
-        create: (context) => AlbumRepository(),
-      ),
-    ],
-    child: MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => AppCubit()),
-        BlocProvider(create: (context) => TimerCubit()),
-        BlocProvider(
-          create: (context) => CurrentTimeSheetsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => AlbumCubit(
-            albumRepository: context.read<AlbumRepository>(),
-          ),
-        ),
-      ],
-      child: const MyApp(),
-    ),
-  ));
 }
 
 class MyApp extends StatelessWidget {
