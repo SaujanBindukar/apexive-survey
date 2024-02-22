@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:apexive_test/bloc_observer.dart';
 import 'package:apexive_test/core/app/cubit/app_cubit.dart';
 import 'package:apexive_test/core/app/cubit/app_cubit_builder.dart';
@@ -12,11 +14,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = const AppBlocObserver();
-  await _initializeHydratedBloc();
-  runApp(const _AppRunner());
+void main() {
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      Bloc.observer = const AppBlocObserver();
+      await _initializeHydratedBloc();
+      runApp(
+        const _AppRunner(),
+      );
+    },
+    (error, stack) {
+      debugPrint('$error $stack');
+    },
+  );
 }
 
 class _AppRunner extends StatelessWidget {

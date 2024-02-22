@@ -9,5 +9,6 @@ class TimesheetBlocBuilder extends BlocBuilder<TimeSheetDataCubit, TimeSheets> {
     BlocBuilderCondition<TimeSheets>? buildWhen,
   }) : super(
           buildWhen: buildWhen ?? (previous, current) => previous != current,
+          bloc: TimeSheetDataCubit(),
         );
 }
