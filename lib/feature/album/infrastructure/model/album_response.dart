@@ -13,10 +13,11 @@ class AlbumResponse with _$AlbumResponse {
 
 @freezed
 class AlbumData with _$AlbumData {
-  const factory AlbumData(
-      {required int id,
-      required int userId,
-      required String title}) = _AlbumData;
+  const factory AlbumData({
+    required int id,
+    required int userId,
+    required String title,
+  }) = _AlbumData;
   factory AlbumData.fromJson(Map<String, dynamic> json) =>
       _$AlbumDataFromJson(json);
 }

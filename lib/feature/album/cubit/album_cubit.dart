@@ -1,5 +1,6 @@
 import 'package:apexive_test/feature/album/infrastructure/model/album_response.dart';
 import 'package:apexive_test/feature/album/infrastructure/respository/album_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
